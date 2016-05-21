@@ -44,13 +44,11 @@ class path_info_extraction():
         e) unsure: A list with flags to specify in which hop an IXP IP is considered as "dirty".
     '''
     def path_info_extraction(self,ip2asn,Subnet_tree,ip_path,Route_tree,subnet2name,ip2name,dirty_ixp2asn,additional_info_tree):
-       
         asn_list = ['*' for x in range(0,len(ip_path))]
         ixp_long_names = ['Not IXP' for x in range(0,len(ip_path))]
         ixp_short_names = ['Not IXP' for x in range(0,len(ip_path))]
         type_vector = ['Unresolved' for x in range(0,len(ip_path))]
         unsure = ['' for x in range(0,len(ip_path))]
-
         for i in range(0,len(ip_path)):
             path_cur=ip_path[i]
 

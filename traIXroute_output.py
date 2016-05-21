@@ -136,6 +136,79 @@ class traIXroute_output():
             print('---> Could not open output file, try to execute traIXroute with administrator rights. Exiting.')
             exit(0)
 
+
+    def print_ripe_info(self,ip_path,asn_list,mypath,outputfile,ixp_short_names,ixp_long_names,unsure,asn_print):
+        
+        # Makes dns queries.
+        dns=[ip_path[i] for i in range(0,len(ip_path))]
+        for i in range(0,len(ip_path)):
+            if ip_path[i]!='*':
+                try:
+                    dns[i]=socket.gethostbyaddr(ip_path[i])[0]
+                except:
+                    pass
+
+
+        # The minimum space between the printed strings.
+        defaultstep = 3
+
+        # The numbers to be printed in front of each line.
+        numbers = [str(x)+')' for x in range(1,len(ip_path)+1)]
+
+        # Fix indents for printing.
+        maxlenas = 0
+        maxlennum = 0
+        gra_path = ['*' for x in range(0,len(ip_path))]
+        gra_asn = ['' for x in range(0,len(ip_path))]
+
+        for i in range(0,len(ip_path)):
+
+            temp=len('AS'+asn_list[i])
+            if temp>maxlenas:
+                maxlenas=temp
+            temp=len(numbers[i])
+            if temp>maxlennum:
+                maxlennum=temp     
+        for i in range(0,len(ip_path)):
+            gra_path[i]=self.gra_in(numbers[i],maxlennum+defaultstep)
+            if asn_print:
+                gra_asn[i]=self.gra_in('AS'+asn_list[i],maxlenas+defaultstep)
+            else:
+                gra_asn[i]=self.gra_in('AS'+asn_list[i],len('AS'+asn_list[i])+defaultstep)
+                
+        # Prints the output and saves it to a file.
+        os.chdir(mypath+'/Output')
+        try:
+            f = open(outputfile, 'a')
+
+            for i in range(0,len(ip_path)):
+                if ixp_short_names[i]=='Not IXP' and ixp_long_names[i]=='Not IXP':
+                    if asn_print:
+                        temp_print=gra_path[i]+gra_asn[i]+dns[i]+' '+'('+ip_path[i]+')'
+                        print(temp_print)
+                        f.write(temp_print+'\n')
+                    else:
+                        temp_print=gra_path[i]+dns[i]+' '+'('+ip_path[i]+')'
+                        print(temp_print)
+                        f.write(temp_print+'\n')
+                else:
+                    if ixp_short_names[i]!='':
+                        temp_print=gra_path[i]+unsure[i]+ixp_short_names[i]+'->'+gra_asn[i]+dns[i]+' '+'('+ip_path[i]+')'
+                        print(temp_print)
+                        f.write(temp_print+'\n')
+                    else:
+                        temp_print=gra_path[i]+unsure[i]+ixp_long_names[i]+'->'+gra_asn[i]+dns[i]+' '+'('+ip_path[i]+')'
+                        print(temp_print)
+                        f.write(temp_print+'\n')                    
+            print('IXP Hops:')
+            f.write('IXP Hops:\n')
+            f.close()
+            os.chdir(mypath)
+        except:
+            print('---> Could not open output file, try to execute traIXroute with administrator rights. Exiting.')
+            exit(0)
+
+
     
     '''
     Prints traIXroute destination.
@@ -217,7 +290,7 @@ class traIXroute_output():
         k) ixp_short: A list that contains short IXP names.
         l) cur_asmt: The current assesment.
     '''
-    def print_result(self,asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,f,num,ixp_short,cur_asmt):
+    def print_result(self,asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,f,num,ixp_short,ixp_long,cur_asmt):
      
         rule=''
         if print_rule:
@@ -295,3 +368,47 @@ class traIXroute_output():
                 print('TraIXrouting using traceroute with "'+arguments+'" options.')
             else:
                 print('TraIXrouting using traceroute with default options.')
+
+    def print_ripe(self,asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,num,ixp_short,ixp_long,cur_asmt):
+     
+        rule=''
+        if print_rule:
+            rule= 'Rule: '+str(j+1)+' --- '
+        
+        gra_asn=['' for x in cur_path_asn]
+        ixp_string=['' for x in cur_ixp_short]
+        for pointer in range(0,len(ixp_string)):
+            if len(ixp_short)>i+pointer-1:
+                if ixp_short[i+pointer-1]!='Not IXP':
+                    if ixp_short[i+pointer-1]!='':
+                        ixp_string[pointer]=ixp_short[i+pointer-1]  
+                    else:
+                        ixp_string[pointer]=ixp_long[i+pointer-1]
+        asm_a=ixp_string[0]
+        if ixp_string[0]!='' and ixp_string[1]!='' and  ixp_string[0]!=ixp_string[1]:
+            asm_a=asm_a+','
+        if ixp_string[1]!='' and ixp_string[0]!=ixp_string[1]:
+            asm_a=asm_a+ixp_string[1]
+        if len(ixp_string)>2:
+            asm_b=ixp_string[1]
+            if ixp_string[1]!='' and ixp_string[2]!='' and ixp_string[2]!=ixp_string[1]:
+                asm_b=asm_b+','
+            if ixp_string[2]!=''  and ixp_string[1]!=ixp_string[2]:
+                asm_b=asm_b+ixp_string[2]
+        if asn_print:
+            for pointer in range(0,len(gra_asn)):
+                gra_asn[pointer]=' (AS'+cur_path_asn[pointer]+')'    
+        if 'a' in cur_asmt:
+            temp_print=rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
+            print(temp_print)
+
+            if 'aorb' in cur_asmt:
+                temp_print=' or '+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
+                print(temp_print)
+            if 'aandb' in cur_asmt:
+                temp_print=('and ('+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2])
+                print(temp_print)
+        elif 'b' in cur_asmt:
+            temp_print=rule+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
+            print(temp_print)
+
