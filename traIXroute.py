@@ -366,7 +366,7 @@ class traIXroute():
 				for tr in traceroutes:
 					IP_route = tr['ip_path']
 					[asn_vector,encounter_type,ixp_long,ixp_short,unsure]=path_info_extract.path_info_extraction(final_ixp2asn,Sub_tree,IP_route,asn_routeviews,final_sub2names,final_ixp2name,dirty_ixp2asn,additional_info_tree)
-					rule_hits=detection_rules_node.resolve_path(IP_route,rules,assmt,asn_vector,encounter_type,ixp_long,ixp_short,final_asn2ip,mypath,outputfile,asn_print,print_rule)
+					rule_hits=detection_rules_node.resolve_ripe(IP_route,rules,assmt,asn_vector,encounter_type,ixp_long,ixp_short,final_asn2ip,mypath,outputfile,asn_print,print_rule)
 
 
 	'''

@@ -186,7 +186,7 @@ class detection_rules():
         os.chdir(mypath) 
         return(rule_hits)
 
-def resolve_ripe(self,path,rules,asmt,path_asn,encounter_type,ixp_long,ixp_short,asn2names,mypath,outputfile,asn_print,print_rule):
+    def resolve_ripe(self,path,rules,asmt,path_asn,encounter_type,ixp_long,ixp_short,asn2names,mypath,outputfile,asn_print,print_rule):
         output=traIXroute_output.traIXroute_output()
         IXP_flag=True
         num=1
@@ -232,7 +232,7 @@ def resolve_ripe(self,path,rules,asmt,path_asn,encounter_type,ixp_long,ixp_short
                                           
                         if rule_check:
                             IXP_flag=False
-                            output.print_result(asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,num,ixp_short,ixp_long,cur_asmt)
+                            output.print_ripe(asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,num,ixp_short,ixp_long,cur_asmt)
                             num=num+1
 
 
