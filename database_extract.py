@@ -52,8 +52,7 @@ class database():
         h) dirty_ixp2asn: A dictionary with {IXP IP}=[ASN]. It is about dirty IXP IPs that do not belong to a known IXP Subnet.
         i) additional_info_tree: A Subnet Tree containing all the IXP subnets provided by the user.
     '''
-    def dbextract(self,filename_subset,filename_excha,filename_ixp_membership,filename_peer_name,filename_peer_ip,filename_peer_pfx,filename_peer_ixlan,route_filename,user_ixps,merge_flag,mypath):
-        
+    def dbextract(self,mypath,filename_subset='ixp_subnets',filename_excha='ixp_exchange',filename_ixp_membership='ixp_membership',filename_peer_name='ix.json',filename_peer_ip='netixlan.json',filename_peer_pfx='ixpfx.json',filename_peer_ixlan='ixlan.json',route_filename='routeviews',user_ixps='additional_info.txt'):
         # Calls the function responsible for importing additional information provided by the user.
         mypath=mypath+'/database/'
         user_imports=handle_complementary.extract_additional_info()
@@ -100,9 +99,6 @@ class database():
 
         output=traIXroute_output.traIXroute_output()
         output.print_db_stats(peering_ip2asn,peering_subnet2name,pch_ixp2asn,pch_subnet2names,final_ixp2asn,final_sub2name,dirty_ixp2asn,additional_ip2asn,additional_subnet2name,lenreserved)  
-        if merge_flag:
-            self.subs_to_file(additional_subnet2name,merged_sub2name,'ixp_prefixes.txt')
-            self.ips_to_file(additional_ip2asn,final_ip2name,dirty_ixp2asn,merged_subtree,merged_ixp2asn, merged_sub2name ,'ixp_membership.txt')
         
         return [final_ixp2asn,final_sub2name,reserved_sub_tree,ASn_memb,final_ip2name,asn_routeviews,Subnet_tree,dirty_ixp2asn,additional_info_tree]
  

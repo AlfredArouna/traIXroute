@@ -43,7 +43,15 @@ class path_info_extraction():
         d) ixp_short_names: A list with the IXP short names in the IP path.
         e) unsure: A list with flags to specify in which hop an IXP IP is considered as "dirty".
     '''
-    def path_info_extraction(self,ip2asn,Subnet_tree,ip_path,Route_tree,subnet2name,ip2name,dirty_ixp2asn,additional_info_tree):
+    def path_info_extraction(self,_data,ip_path):
+        ip2asn = _data[0]
+        Subnet_tree = _data[6]
+        Route_tree = _data[5]
+        subnet2name = _data[1]
+        ip2name = _data[4]
+        dirty_ixp2asn = _data[7]
+        additional_info_tree = _data[8]
+
         asn_list = ['*' for x in range(0,len(ip_path))]
         ixp_long_names = ['Not IXP' for x in range(0,len(ip_path))]
         ixp_short_names = ['Not IXP' for x in range(0,len(ip_path))]

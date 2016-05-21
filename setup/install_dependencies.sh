@@ -37,6 +37,8 @@ elif [ $OS == "Linux" ]
         apt-get -y install python3-setuptools
         apt-get -y install python3-dev
         apt-get -y install traceroute
+        apt-get -y install python3-pip
+        apt-get -y install pip3 install click
 else
-    echo "Error: The OS is not supported."
+    echo "Error occured; unsupported OS"
 fi

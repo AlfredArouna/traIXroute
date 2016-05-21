@@ -104,89 +104,13 @@ class detection_rules():
         output.print_rules_number(final_rules,file)
         return (final_rules,asmt)
 
-
-    '''
-    Applies the IXP detection rules upon the resolved path printing all the potential IXP crossing links.
-    Input:
-        a) path: The IP path.
-        b) rules: The condition part for each IXP detection rule.
-        c) asmt: The assessment part for each IXP detection rule.
-        d) path_asn: The ASN for each IP.
-        e) encounter_type: The resolved IP path based on the encountered types (IXP IP, IXP Prefix, Normal IP, Illegal IP).
-        f) ixp_long,ixp_short: The long and short IXP names.
-        g) asn2names: A dictionary with a list of lists of short and long IXP names in which an AS is member - {ASN}=[[name long,name short],[name long,name short]...].
-        h) outputfile: The output file.
-        i) asn_print: TRUE if the user wants to print the ASNs, FALSE otherwise.
-        j) print_rule: TRUE if the user wants to print the rule that infered the IXP crossing, FALSE otherwise.
-    Output:
-        a) rule_hits: a list of the number of hits for each rule.
-    '''
-    def resolve_path(self,path,rules,asmt,path_asn,encounter_type,ixp_long,ixp_short,asn2names,mypath,outputfile,asn_print,print_rule):
-        
-        output=traIXroute_output.traIXroute_output()
-        IXP_flag=True
-        os.chdir(mypath+'/Output')      
-        try:          
-            f = open(outputfile, 'a')
-        except:
-            print('Could not open '+outputfile+'. Exiting.')
-            exit(0)
-        num=1
-        rule_hits=[0 for x in range(0,len(rules))]
-        temp_path_asn=[]
-        for node in path_asn:
-            if node!='AS*':
-                temp_path_asn.append(node)
-            else:
-                temp_path_asn.append('*')
-       # temp_path_asn=[x for x in path_asn if x != 'AS*']
-        for i in range(1,len(path)):
-            asn_list1=path_asn[i-1].split('_')
-            if len(path)>i+1:
-                asn_list2=path_asn[i+1].split('_')
-            else:
-                asn_list2='*'
-            for asn1 in asn_list1:
-                # In case of MOAS, all the possible AS paths are checked for IXP crossing.
-                for asn2 in asn_list2:
-                    temp_path_asn[i-1]=asn1
-                    if len(path_asn)>i+1:
-                        temp_path_asn[i+1]=asn2
-                    for j in range(0,len(rules)):
-                        
-                        cur_rule=rules[j]
-                        cur_asmt=asmt[j]
-
-                        # Check if the condition part of a candidate rule is satisfied in order to proceed with the assessment part.
-                        if len(cur_rule)>0:
-                            current_hop=1
-                            if i<len(path)-1:
-                                cur_path_asn=temp_path_asn[i-1:i+2]
-                                cur_ixp_long=ixp_long[i-1:i+2]
-                                cur_ixp_short=ixp_short[i-1:i+2]
-                                cur_encounter_type=encounter_type[i-1:i+2]
-                            else:
-                                cur_path_asn=temp_path_asn[i-1:i+1]
-                                cur_ixp_long=ixp_long[i-1:i+1]
-                                cur_ixp_short=ixp_short[i-1:i+1]
-                                cur_encounter_type=encounter_type[i-1:i+1]
-                            rule_check=self.check_rules(cur_rule,cur_path_asn,current_hop,cur_ixp_long,cur_ixp_short,asn2names,cur_encounter_type)
-                                          
-                        if rule_check:
-                            IXP_flag=False
-                            rule_hits[j]=rule_hits[j]+1
-                            output.print_result(asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,f,num,ixp_short,ixp_long,cur_asmt)
-                            num=num+1
-
-
-        if IXP_flag:
-            output.print_no_IXPs(f)
-
-        f.close()
-        os.chdir(mypath) 
-        return(rule_hits)
-
-    def resolve_ripe(self,path,rules,asmt,path_asn,encounter_type,ixp_long,ixp_short,asn2names,mypath,outputfile,asn_print,print_rule):
+    def resolve_ripe(self,path,_rules,_pathInfo,asn2names,mypath):
+        rules = _rules[0]
+        asmt = _rules[1]
+        path_asn = _pathInfo[0]
+        encounter_type = _pathInfo[1]
+        ixp_long = _pathInfo[2]
+        ixp_short = _pathInfo[3]
         output=traIXroute_output.traIXroute_output()
         IXP_flag=True
         num=1
@@ -232,7 +156,7 @@ class detection_rules():
                                           
                         if rule_check:
                             IXP_flag=False
-                            output.print_ripe(asn_print,print_rule,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,num,ixp_short,ixp_long,cur_asmt)
+                            output.print_ripe(cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,num,ixp_short,ixp_long,cur_asmt)
                             num=num+1
 
 
