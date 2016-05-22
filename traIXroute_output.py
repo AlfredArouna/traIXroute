@@ -16,6 +16,7 @@
 # along with traIXroute.  If not, see <http://www.gnu.org/licenses/>.
 
 import os,socket,string_handler
+import json
 
 '''
 Handles all the prints.
@@ -59,15 +60,17 @@ class traIXroute_output():
     def print_rules_number(self,final_rules,file):
         print("Imported "+str(len(final_rules))+" IXP Detection Rules from "+file+".")           
 
-    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt,ixp_cc):
+    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt,ixp_cc,cc):
         path=tr["ip_path"]
+        msm_id = tr["msm_id"]
+        src_prb_id = tr["src_prb_id"]
+        dst_prb_id = tr["dst_prb_id"]
+
         rule=''
         
-        for cc in ixp_cc:
-            if len(cc) > 2:
-                cc = country2cc[cc]
-
-        print(ixp_cc)
+        for tmp_cc in ixp_cc:
+            if len(tmp_cc) > 2:
+                tmp_cc = country2cc[tmp_cc]
 
         gra_asn=['' for x in cur_path_asn]
         ixp_string=['' for x in cur_ixp_short]
@@ -89,19 +92,44 @@ class traIXroute_output():
                 asm_b=asm_b+','
             if ixp_string[2]!=''  and ixp_string[1]!=ixp_string[2]:
                 asm_b=asm_b+ixp_string[2]
+
+        entry_ixp = []
+
+        JEDI_RESULT_DIR = "/home/mavromat/ixp-country-jedi/UG/results"
+        JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
+
+
+        with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
+            jedidata = json.load(fjedijson)
+
         if 'a' in cur_asmt:
             temp_print=rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
-            print(temp_print)
+            entry_ixp.append({'hop': str(i), 'name': asm_a, 'link': 0, 'in_country': ixp_cc[i] == cc })
+            print(entry_ixp)
 
             if 'aorb' in cur_asmt:
                 temp_print=' or '+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
-                print(temp_print)
+                entry_ixp.append({'hop': str(i+1), 'name': asm_b, 'link': 2, 'in_country': ixp_cc[i] == cc })
+                print(entry_ixp)
             if 'aandb' in cur_asmt:
                 temp_print=('and ('+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2])
-                print(temp_print)
+                entry_ixp.append({'hop': str(i+1), 'name': asm_b, 'link': 3, 'in_country': ixp_cc[i] == cc })
+                print(entry_ixp)
         elif 'b' in cur_asmt:
             temp_print=rule+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
-            print(temp_print)
+            entry_ixp.append({'hop': str(i+1), 'name': asm_b, 'link': 1, 'in_country': ixp_cc[i] == cc })
+            print(entry_ixp)
+
+        # TODO: before dumping, check if traixroute doesn't exist yet
+        for jd in jedidata :
+            if jd.__contains__("src_prb_id") and jd.__contains__("dst_prb_id"):
+                if jd["src_prb_id"] == src_prb_id : 
+                    jd["traixroute"] = entry_ixp
+
+        with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
+            json.dump([], fjedijson)
+        with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
+            json.dump(jedidata, fjedijson, indent=2)
 
 country2cc = {
  'Afghanistan': 'AF',
