@@ -52,6 +52,8 @@ class peering_handle():
         json_ip=self.extract_json_data(filename_peer_ix,mypath,3)
         (ip2asn,dirty_ixp_to_name,dirty_ixp2asn)=self.extract_ip(json_ip,temp_subnet_tree,add_subnet_tree,reserved_tree)
 
+        print(sub2names)
+
         return(sub2names,ip2asn,dirty_ixp_to_name,dirty_ixp2asn)
 
     
@@ -113,7 +115,9 @@ class peering_handle():
             ixid=node['id']
             ixname=node['name']
             ixlong=node['name_long']
-            names_dict[ixid]=[ixlong,ixname]
+            ixcountry=node['country']
+            ixcity=node['city']
+            names_dict[ixid]=[ixlong,ixname,ixcountry,ixcity]
         
         return (names_dict)
 
