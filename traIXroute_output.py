@@ -59,7 +59,8 @@ class traIXroute_output():
     def print_rules_number(self,final_rules,file):
         print("Imported "+str(len(final_rules))+" IXP Detection Rules from "+file+".")           
 
-    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,path,i,j,num,ixp_short,ixp_long,cur_asmt):
+    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt):
+        path=tr.ip_path
         rule=''
         
         gra_asn=['' for x in cur_path_asn]
