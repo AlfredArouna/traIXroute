@@ -28,7 +28,7 @@ import click
 
 @click.command()
 @click.option('-r','--ripe',type=str)
-@click.option('-u','--update',type=bool,default=False)
+@click.option('-u','--update',is_flag=True)
 def traIXroute(ripe,update):
 	mypath=sys.path[0]
 
@@ -59,7 +59,6 @@ def traIXroute(ripe,update):
 				ip_path = tr['ip_path']
 				_pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
 				detection_helper.resolve_ripe(ip_path, _rules, _pathInfo, _datasets[3], mypath)
-				break
 
 if __name__ == "__main__":
 	traIXroute()
