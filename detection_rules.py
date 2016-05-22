@@ -105,7 +105,7 @@ class detection_rules():
         return (final_rules,asmt)
 
     def resolve_ripe(self,tr,_rules,_pathInfo,asn2names,mypath):
-        path = tr.ip_path
+        path = tr["ip_path"]
         rules = _rules[0]
         asmt = _rules[1]
         path_asn = _pathInfo[0]
