@@ -58,7 +58,8 @@ def traIXroute(ripe,update):
 			for tr in traceroutes:
 				ip_path = tr['ip_path']
 				_pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
-				detection_helper.resolve_ripe(ip_path, _rules, _pathInfo, _datasets[3], mypath)
+				detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath)
+				break
 
 if __name__ == "__main__":
 	traIXroute()
