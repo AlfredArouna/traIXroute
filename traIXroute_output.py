@@ -124,7 +124,7 @@ class traIXroute_output():
         # TODO: before dumping, check if traixroute doesn't exist yet
         for jd in jedidata :
             if jd.__contains__("src_prb_id") and jd.__contains__("dst_prb_id"):
-                if jd["src_prb_id"] == src_prb_id : 
+                if jd["src_prb_id"] == src_prb_id and jd["dst_prb_id"] == dst_prb_id : 
                     jd["traixroute"] = entry_ixp
 
         with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
