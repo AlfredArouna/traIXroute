@@ -29,7 +29,8 @@ import click
 @click.command()
 @click.option('-r','--ripe',type=str)
 @click.option('-u','--update',is_flag=True)
-def traIXroute(ripe,update):
+@click.option('-c','--countrycode',type=str)
+def traIXroute(ripe,update,countrycode):
 	mypath=sys.path[0]
 
 	if update or (not os.path.exists(mypath+'/database')):
@@ -56,9 +57,9 @@ def traIXroute(ripe,update):
 		with open(ripe,'r') as outfile:
 			traceroutes = json.load(outfile)
 			for tr in traceroutes:
-                            ip_path = tr['ip_path']
-                            _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
-                            detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe)
+                ip_path = tr['ip_path']
+                _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
+                detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe, countrycode)
 
 if __name__ == "__main__":
 	traIXroute()

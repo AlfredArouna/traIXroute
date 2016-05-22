@@ -55,6 +55,8 @@ class path_info_extraction():
         asn_list = ['*' for x in range(0,len(ip_path))]
         ixp_long_names = ['Not IXP' for x in range(0,len(ip_path))]
         ixp_short_names = ['Not IXP' for x in range(0,len(ip_path))]
+        ixp_country_code = ['' for x in range(0,len(ip_path))]
+
         type_vector = ['Unresolved' for x in range(0,len(ip_path))]
         unsure = ['' for x in range(0,len(ip_path))]
         for i in range(0,len(ip_path)):
@@ -80,6 +82,8 @@ class path_info_extraction():
                 elif path_cur in Subnet_tree:
                     subnet=Subnet_tree[path_cur]
                     temp=subnet2name[subnet]
+                    if(len(temp) > 2):
+                        ixp_country_code[i]=temp[2]
                     ixp_long_names[i]=temp[0]
                     ixp_short_names[i]=temp[1]
             #else if it is a dirty IXP IP.
@@ -101,6 +105,8 @@ class path_info_extraction():
                     ixp_short_names[i]=temp[1]
                 elif path_cur in subnet2name.keys():
                     temp=subnet2name[path_cur]
+                    if(len(temp) > 2):
+                        ixp_country_code[i]=temp[2]
                     ixp_long_names[i]=temp[0]
                     ixp_short_names[i]=temp[1]
 
@@ -109,6 +115,8 @@ class path_info_extraction():
                 path_cur=Subnet_tree[path_cur]
                 if path_cur in subnet2name.keys():
                     temp=subnet2name[path_cur]
+                    if(len(temp) > 2):
+                        ixp_country_code[i]=temp[2]
                     ixp_long_names[i]=temp[0]
                     ixp_short_names[i]=temp[1]
                 type_vector[i]='IXP prefix'
@@ -118,4 +126,4 @@ class path_info_extraction():
                 asn_list[i]=Route_tree[path_cur].split(',')[1]
                 type_vector[i]='Normal IP'
 
-        return (asn_list,type_vector,ixp_long_names,ixp_short_names,unsure)
+        return (asn_list,type_vector,ixp_long_names,ixp_short_names,unsure,ixp_country_code)

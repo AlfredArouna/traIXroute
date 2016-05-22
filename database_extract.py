@@ -66,6 +66,8 @@ class database():
         peeringdb=handle_pdb.peering_handle()
         [peering_subnet2name,peering_ip2asn,peering_ixp2name,dirty_ixp2asn]=peeringdb.peering_handle(filename_peer_name,filename_peer_ip,filename_peer_pfx,filename_peer_ixlan,additional_info_tree,mypath,reserved_sub_tree)
 
+        # print(peering_subnet2name)
+
         # Calls the class responsible for handling the dataset from pch.
         pch=handle_pch.pch_handle()
         [pch_subnet2names,pch_ixp2asn,dirty_pch]=pch.pch_handle_main(filename_ixp_membership,filename_subset,filename_excha,mypath,reserved_sub_tree)
