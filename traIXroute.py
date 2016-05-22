@@ -56,9 +56,9 @@ def traIXroute(ripe,update):
 		with open(ripe,'r') as outfile:
 			traceroutes = json.load(outfile)
 			for tr in traceroutes:
-				ip_path = tr['ip_path']
-				_pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
-				detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath)
+                            ip_path = tr['ip_path']
+                            _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
+                            detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe)
 
 if __name__ == "__main__":
 	traIXroute()

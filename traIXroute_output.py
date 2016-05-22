@@ -60,11 +60,12 @@ class traIXroute_output():
     def print_rules_number(self,final_rules,file):
         print("Imported "+str(len(final_rules))+" IXP Detection Rules from "+file+".")           
 
-    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt):
+    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt, ripe):
         path=tr["ip_path"]
         msm_id = tr["msm_id"]
         src_prb_id = tr["src_prb_id"]
         dst_prb_id = tr["dst_prb_id"]
+        ripe_traixroute_file = ripe
 
         rule=''
         
@@ -91,7 +92,7 @@ class traIXroute_output():
 
         entry_ixp = []
 
-        JEDI_RESULT_DIR = "/home/santiago/src/ixp-country-jedi/UG/results/"
+        JEDI_RESULT_DIR = os.path.dirname(ripe_traixroute_file) + "/results"
         JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
 
         with open(JEDI_RESULT_FILE, mode='r') as fjedijson:

@@ -104,7 +104,7 @@ class detection_rules():
         output.print_rules_number(final_rules,file)
         return (final_rules,asmt)
 
-    def resolve_ripe(self,tr,_rules,_pathInfo,asn2names,mypath):
+    def resolve_ripe(self,tr,_rules,_pathInfo,asn2names,mypath, ripe):
         path = tr["ip_path"]
         rules = _rules[0]
         asmt = _rules[1]
@@ -157,7 +157,7 @@ class detection_rules():
                                           
                         if rule_check:
                             IXP_flag=False
-                            output.print_ripe(cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt)
+                            output.print_ripe(cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt, ripe)
                             num=num+1
 
 
