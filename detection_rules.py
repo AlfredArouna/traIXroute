@@ -112,6 +112,7 @@ class detection_rules():
         encounter_type = _pathInfo[1]
         ixp_long = _pathInfo[2]
         ixp_short = _pathInfo[3]
+        ixp_cc = _pathInfo[5]
         output=traIXroute_output.traIXroute_output()
         IXP_flag=True
         num=1
@@ -157,7 +158,7 @@ class detection_rules():
                                           
                         if rule_check:
                             IXP_flag=False
-                            output.print_ripe(cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt)
+                            output.print_ripe(cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt,ixp_cc)
                             num=num+1
 
 

@@ -47,7 +47,6 @@ class pch_handle():
 
         return pch_final,ixp_mem,dirty
 
-
     '''
     Extracts the IXP IPs from PCH.
     Input: 
@@ -115,7 +114,7 @@ class pch_handle():
         denied_subs=[]
 
         for i in range(0,len(table)-1):
-            temp_string=table[i+1].split(',')
+            temp_string=table[i+1].split(', ')
             if len(temp_string)>5:
                 mykey=temp_string[0]
                 myip=temp_string[6]
@@ -149,9 +148,9 @@ class pch_handle():
         table=table.split('\n')
         IXP_IP={}
         for i in range(0,len(table)-1):
-            temp_string=table[i+1].split(',')
+            temp_string=table[i+1].split(', ')
             if len(temp_string)>5:
-                IXP_IP[temp_string[0]]=[temp_string[4]]
+                IXP_IP[temp_string[0]]=[temp_string[4],temp_string[2],temp_string[3]]
 
         return (IXP_IP)
 
@@ -172,13 +171,13 @@ class pch_handle():
 
         for node in temp_table:
             myvalues=temp_table[node]
-            if len(myvalues)>2:
-                new_item=[myvalues[0],myvalues[1]]
-            elif len(myvalues)>1:
-                new_item=[myvalues[0],myvalues[0]]
+            if len(myvalues)>4:
+                new_item=[myvalues[0],myvalues[3],myvalues[1],myvalues[2]]
+            elif len(myvalues)>3:
+                new_item=[myvalues[0],myvalues[0],myvalues[1],myvalues[2]]
             else:
-                new_item=['','']
-            Subnet=str_handle.extract_ip(myvalues[2],'Subnet')[0]
+                new_item=['','','','']
+            Subnet=str_handle.extract_ip(myvalues[4],'Subnet')[0]
             if Subnet!='' and Subnet not in final_table.keys():
                 final_table[Subnet]=new_item
             elif Subnet in final_table.keys():
@@ -193,7 +192,7 @@ class pch_handle():
                     final_table.pop(Subnet, None)
                 else:
                     final_table[Subnet]=new_item
-        
+
         return final_table
 
 
