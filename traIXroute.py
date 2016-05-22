@@ -57,9 +57,9 @@ def traIXroute(ripe,update,countrycode):
 		with open(ripe,'r') as outfile:
 			traceroutes = json.load(outfile)
 			for tr in traceroutes:
-                ip_path = tr['ip_path']
-                _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
-                detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe, countrycode)
+			    ip_path = tr['ip_path']
+			    _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
+			    detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe, countrycode)
 
 if __name__ == "__main__":
 	traIXroute()
