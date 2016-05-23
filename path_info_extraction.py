@@ -61,6 +61,7 @@ class path_info_extraction():
         unsure = ['' for x in range(0,len(ip_path))]
         for i in range(0,len(ip_path)):
             path_cur=ip_path[i]
+            if path_cur == None: continue
 
             # If there is an IXP hit.
             if path_cur in ip2asn.keys():
