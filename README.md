@@ -1,9 +1,9 @@
 
-# traIXroute (version for Hackathon IXP Country Jedi ONLY!!!)
+# traIXroute implementation for IXP-Country-Jedi
 
 Custom version of IXP Country Jedi can be found here:
 
-https://github.com/santiagorr/ixp-country-jedi/tree/for-traIXroute
+[IXP-Country-Jedi integrates traIXroute](https://github.com/santiagorr/ixp-country-jedi/tree/for-traIXroute)
 
 After you have created the traixroute.json file from the get_measurements step of IXP Country Jedi's scripts, you must run traIXroute with this format:
 
@@ -15,9 +15,9 @@ python3 traIXroute.py -r ../ixp-country-jedi/example/traixroute.json -c SE
 
 When traIXroute finishes you have to continue with IXP Country Jedi's next steps.
 
-================= ORIGINAL README =================
+# ====== ORIGINAL README ======
 
-For the original traIXroute please visit
+For the original traIXroute please visit: 
 https://github.com/gnomikos/traIXroute
 
 **traIXroute** is a tool that detects if and where a traceroute path crosses an IXP fabric. It uses multiple criteria to verify IXP crossings in the light of replies from third-party interfaces or inaccuracies in the available data about IP addresses assigned to IXPs. These discrepancies mislead simple heuristics based solely on the IP address prefixes allocated to IXPs. The detection uses data from  PeeringDB, Packet Clearing House and RouteViews. In addition, **traIXroute** uses in the background the standard  [traceroute](https://en.wikipedia.org/wiki/Traceroute) tool or the [scamper](https://www.caida.org/tools/measurement/scamper/) tool, which implements the Paris traceroute technique to deal with inaccurate paths due to load balancers [1]. It is open source under GPLv3. 
