@@ -2,13 +2,14 @@
 # traIXroute (version for Hackathon IXP Country Jedi ONLY!!!)
 
 Custom version of IXP Country Jedi can be found here:
+
 https://github.com/santiagorr/ixp-country-jedi/tree/for-traIXroute
 
-After you have created the traixroute.json file from the get_measurements script of IXP Country Jedi's tools, you must run traIXroute with this format:
+After you have created the traixroute.json file from the get_measurements step of IXP Country Jedi's scripts, you must run traIXroute with this format:
 
 python3 traIXroute.py -r ../path/to/traixroute.json -c CountryCode (iso3166-1)
 
-An example for Sweeden:
+An example for Sweden:
 
 python3 traIXroute.py -r ../ixp-country-jedi/example/traixroute.json -c SE
 
