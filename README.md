@@ -9,9 +9,9 @@ After you have created the traixroute.json file from the get_measurements step o
 
 ./traIXroute.py -r ../path/to/traixroute.json -c CountryCode (iso3166-1)
 
-An example for Sweden:
+An example for Denmark:
 
-./traIXroute.py -r ../ixp-country-jedi/example/traixroute.json -c SE
+./traIXroute.py -r ../ixp-country-jedi/example/DK/traixroute.json -c DK
 
 When traIXroute finishes you have to continue with IXP Country Jedi's next steps.
 
