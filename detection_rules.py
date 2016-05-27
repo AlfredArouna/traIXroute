@@ -17,8 +17,9 @@
 # You should have received a copy of the GNU General Public License
 # along with traIXroute.  If not, see <http://www.gnu.org/licenses/>.
 
-import string_handler,os,traIXroute_output
+import string_handler, os, traIXroute_output
 from math import fabs
+import dataStore
 
 '''
 This class is responsible for handling and applying the rules in a given traceroute path
@@ -104,7 +105,7 @@ class detection_rules():
         output.print_rules_number(final_rules,file)
         return (final_rules,asmt)
 
-    def resolve_ripe(self,tr,_rules,_pathInfo,asn2names,mypath, ripe, cc):
+    def resolve_ripe(self, tr, _rules, _pathInfo, asn2names, mypath, ripe, cc, tracerouteDataStore):
         path = tr["ip_path"]
         rules = _rules[0]
         asmt = _rules[1]
@@ -158,7 +159,7 @@ class detection_rules():
                                           
                         if rule_check:
                             IXP_flag=False
-                            output.print_ripe(cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt, ripe,ixp_cc, cc)
+                            output.print_ripe(cur_ixp_long, cur_ixp_short, cur_path_asn, tr, i, j, num, ixp_short, ixp_long, cur_asmt, ripe, ixp_cc, cc)
                             num=num+1
 
 

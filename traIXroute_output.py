@@ -17,6 +17,7 @@
 
 import os,socket,string_handler
 import json
+import dataStore
 
 '''
 Handles all the prints.
@@ -60,7 +61,7 @@ class traIXroute_output():
     def print_rules_number(self,final_rules,file):
         print("Imported "+str(len(final_rules))+" IXP Detection Rules from "+file+".")           
 
-    def print_ripe(self,cur_ixp_long,cur_ixp_short,cur_path_asn,tr,i,j,num,ixp_short,ixp_long,cur_asmt,ripe,ixp_cc,cc):
+    def print_ripe(self, cur_ixp_long, cur_ixp_short, cur_path_asn, tr, i, j, num, ixp_short, ixp_long, cur_asmt, ripe, ixp_cc, cc, tracerouteDataStore):
         path=tr["ip_path"]
         msm_id = tr["msm_id"]
         src_prb_id = tr["src_prb_id"]
@@ -96,12 +97,13 @@ class traIXroute_output():
 
         entry_ixp = []
 
-        JEDI_RESULT_DIR = os.path.dirname(ripe_traixroute_file) + "/results"
-        JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
+        #JEDI_RESULT_DIR = os.path.dirname(ripe_traixroute_file) + "/results"
+        #JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
 
+        #with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
+            #jedidata = json.load(fjedijson)
 
-        with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
-            jedidata = json.load(fjedijson)
+        jedidata = dataStore.get_ripe()
 
         if 'a' in cur_asmt:
             temp_print=rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
@@ -121,16 +123,12 @@ class traIXroute_output():
             entry_ixp.append({'hop': str(i+1), 'name': asm_b, 'link': 1, 'in_country': ixp_cc[i] == cc })
             print(entry_ixp)
 
-        # TODO: before dumping, check if traixroute doesn't exist yet
-        for jd in jedidata :
-            if jd.__contains__("src_prb_id") and jd.__contains__("dst_prb_id"):
-                if jd["src_prb_id"] == src_prb_id and jd["dst_prb_id"] == dst_prb_id : 
-                    jd["traixroute"] = entry_ixp
+        dataStore.addJediData(src_prb_id, dst_prb_id, entry_ixp)
 
-        with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            json.dump([], fjedijson)
-        with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            json.dump(jedidata, fjedijson, indent=2)
+        #with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
+            #json.dump([], fjedijson)
+        #with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
+            #json.dump(jedidata, fjedijson, indent=2)
 
 country2cc = {
  'Afghanistan': 'AF',
