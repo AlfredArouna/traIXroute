@@ -19,33 +19,45 @@ import json
 
 class dataStore():
 
+    def __init__(self):
+        self.ripe_traixroute_file = ""
+        self.traixroutejason = []
+        self.jediresults = {}
+
     """
     Reads a ripe traIXroute processed file
     """
     def load_ripe (self, ripe_traixroute_file):
         self.ripe_traixroute_file = ripe_traixroute_file
         with open(ripe_traixroute_file, 'r') as outfile:
-            self.traceroutes = json.load(outfile)
+            self.traixroutejason = json.load(outfile)
 
     def get_ripe (self):
-        return self.traceroutes
+        return self.traixroutejason 
 
-    def addJediData(self, src_prb_id, dst_prb_id, entry_ixp):
+    def load_jediresults (self, msm_id):
+        JEDI_RESULT_DIR = os.path.dirname(self.ripe_traixroute_file) + "/results"
+        JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
+        print ("jedi_result: " + JEDI_RESULT_FILE)
+        with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
+            jedidata = json.load(fjedijson)
+        self.jediresults[msm_id] = jedidata
+
+    def get_jediresults (self, msm_id):
+        return self.jediresults[msm_id]
+
+    def addJediData(self, msm_id, src_prb_id, dst_prb_id, entry_ixp):
         # TODO: before dumping, check if traixroute doesn't exist yet
-        for jd in jedidata :
+        for jd in self.jediresults[msm_id] :
             if jd.__contains__("src_prb_id") and jd.__contains__("dst_prb_id"):
                 if jd["src_prb_id"] == src_prb_id and jd["dst_prb_id"] == dst_prb_id :
                     jd["traixroute"] = entry_ixp
 
-    def save(self, msm_id):
+    def save_traixed_jedi(self, msm_id):
         JEDI_RESULT_DIR = os.path.dirname(self.ripe_traixroute_file) + "/results"
         JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
 
         with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
             json.dump([], fjedijson)
         with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            json.dump(jedidata, fjedijson, indent=2)
-
-    def __init__():
-        self.ripe_traixroute_file = ""
-        self.traceroutes = []
+            json.dump(self.jediresults[msm_id], fjedijson, indent=2)

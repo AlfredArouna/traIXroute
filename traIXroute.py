@@ -48,22 +48,21 @@ def traIXroute(ripe,update,countrycode):
 			exit(0)
 
 	if ripe:
-		detection_helper = _Dr.detection_rules()
-		path_helper = _Pif.path_info_extraction()
-		mydb = _De.database()
+            detection_helper = _Dr.detection_rules()
+            path_helper = _Pif.path_info_extraction()
+            mydb = _De.database()
 
-		_rules = detection_helper.rules_extract('rules.txt')
-		_datasets = mydb.dbextract(mypath) 
+            _rules = detection_helper.rules_extract('rules.txt')
+            _datasets = mydb.dbextract(mypath) 
 
-                tracerouteDataStore = dataStore()
-                tracerouteDataStore.load_ripe(ripe)
-                traceroutes = tracerouteDataStore.get_ripe()
+            tracerouteDataStore = dataStore.dataStore()
+            tracerouteDataStore.load_ripe(ripe)
+            traceroutes = tracerouteDataStore.get_ripe()
 
-			for tr in traceroutes:
-			    ip_path = tr['ip_path']
-			    _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
-			    detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe, countrycode, tracerouteDataStore)
-                tracerouteDataStore.save(tr['msm_id'])
+            for tr in traceroutes:
+                ip_path = tr['ip_path']
+                _pathInfo = path_helper.path_info_extraction(_datasets, ip_path)
+                detection_helper.resolve_ripe(tr, _rules, _pathInfo, _datasets[3], mypath, ripe, countrycode, tracerouteDataStore)
 
 if __name__ == "__main__":
 	traIXroute()

@@ -97,13 +97,8 @@ class traIXroute_output():
 
         entry_ixp = []
 
-        #JEDI_RESULT_DIR = os.path.dirname(ripe_traixroute_file) + "/results"
-        #JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
-
-        #with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
-            #jedidata = json.load(fjedijson)
-
-        jedidata = dataStore.get_ripe()
+        tracerouteDataStore.load_jediresults(msm_id)
+        jedidata = tracerouteDataStore.get_jediresults(msm_id)
 
         if 'a' in cur_asmt:
             temp_print=rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
@@ -123,12 +118,7 @@ class traIXroute_output():
             entry_ixp.append({'hop': str(i+1), 'name': asm_b, 'link': 1, 'in_country': ixp_cc[i] == cc })
             print(entry_ixp)
 
-        dataStore.addJediData(src_prb_id, dst_prb_id, entry_ixp)
-
-        #with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            #json.dump([], fjedijson)
-        #with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            #json.dump(jedidata, fjedijson, indent=2)
+        tracerouteDataStore.addJediData(msm_id, src_prb_id, dst_prb_id, entry_ixp)
 
 country2cc = {
  'Afghanistan': 'AF',

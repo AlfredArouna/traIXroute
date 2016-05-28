@@ -159,10 +159,10 @@ class detection_rules():
                                           
                         if rule_check:
                             IXP_flag=False
-                            output.print_ripe(cur_ixp_long, cur_ixp_short, cur_path_asn, tr, i, j, num, ixp_short, ixp_long, cur_asmt, ripe, ixp_cc, cc)
+                            output.print_ripe(cur_ixp_long, cur_ixp_short, cur_path_asn, tr, i, j, num, ixp_short, ixp_long, cur_asmt, ripe, ixp_cc, cc, tracerouteDataStore)
+
                             num=num+1
-
-
+        tracerouteDataStore.save_traixed_jedi(tr['msm_id'])
 
 
     '''                      
