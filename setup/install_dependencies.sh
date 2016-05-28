@@ -31,14 +31,14 @@ elif [ $OS == "Linux" ]
     then
         echo "Installing dependencies in Linux."
         apt-get update
-        apt-get -y install g++
-        apt-get -y install gcc
-        apt-get -y install python3
-        apt-get -y install python3-setuptools
-        apt-get -y install python3-dev
-        apt-get -y install traceroute
-        apt-get -y install python3-pip
-        apt-get -y install pip3 install click
+        apt-get -y install g++ \
+         gcc \
+         python3-setuptools \
+         python3-dev \
+         traceroute \
+         python3-pip \
+         python3-click \
+         python3-subnettree
 else
     echo "Error occured; unsupported OS"
 fi
