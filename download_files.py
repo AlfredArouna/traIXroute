@@ -62,34 +62,34 @@ class download_files():
             if option==1 or not option:
                 request = 'https://peeringdb.com/api/ixpfx'
                 response = urlopen(request)
-                str_response = response.readall().decode('utf-8')
+                str_response = response.read().decode('utf-8')
                 obj = json.loads(str_response)
 
                 with open (mypath+'/ixpfx.json','w') as f:
                     json.dump (obj,f)
 
-            if option==2 or not option:
+            if option==2:
                 request = 'https://peeringdb.com/api/ix'
                 response = urlopen(request)
-                str_response = response.readall().decode('utf-8')
+                str_response = response.read().decode('utf-8')
                 obj= json.loads(str_response)
 
                 with open (mypath+'/ix.json','w') as f:
                    json.dump (obj,f)
 
-            if option==3 or not option:
+            if option==3:
                 request = 'https://peeringdb.com/api/netixlan'
                 response = urlopen(request)
-                str_response = response.readall().decode('utf-8')
+                str_response = response.read().decode('utf-8')
                 obj= json.loads(str_response)
 
                 with open (mypath+'/netixlan.json','w') as f:
                    json.dump (obj,f)
 
-            if option==4 or not option:
+            if option==4:
                 request = 'https://peeringdb.com/api/ixlan'
                 response = urlopen(request)
-                str_response = response.readall().decode('utf-8')
+                str_response = response.read().decode('utf-8')
                 obj= json.loads(str_response)
 
                 with open (mypath+'/ixlan.json','w') as f:
