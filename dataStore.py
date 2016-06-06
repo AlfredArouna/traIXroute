@@ -39,12 +39,18 @@ class dataStore():
         JEDI_RESULT_DIR = os.path.dirname(self.ripe_traixroute_file) + "/results"
         JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
         print ("jedi_result: " + JEDI_RESULT_FILE)
-        with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
-            jedidata = json.load(fjedijson)
-        self.jediresults[msm_id] = jedidata
+        try:
+            with open(JEDI_RESULT_FILE, mode='r') as fjedijson:
+                jedidata = json.load(fjedijson)
+            self.jediresults[msm_id] = jedidata
+        except:
+            print ("Possibly empty file" + JEDI_RESULT_FILE)
 
     def get_jediresults (self, msm_id):
-        return self.jediresults[msm_id]
+        try:
+            return self.jediresults[msm_id]
+        except:
+            return {}
 
     def addJediData(self, msm_id, src_prb_id, dst_prb_id, entry_ixp):
         # TODO: before dumping, check if traixroute doesn't exist yet
@@ -57,7 +63,8 @@ class dataStore():
         JEDI_RESULT_DIR = os.path.dirname(self.ripe_traixroute_file) + "/results"
         JEDI_RESULT_FILE = os.path.abspath(JEDI_RESULT_DIR+"/msm."+str(msm_id)+".json")
 
-        with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            json.dump([], fjedijson)
-        with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
-            json.dump(self.jediresults[msm_id], fjedijson, indent=2)
+        if (self.jediresults.__contains__(msm_id)):
+            with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
+                json.dump([], fjedijson)
+            with open(JEDI_RESULT_FILE, mode='w') as fjedijson:
+                json.dump(self.jediresults[msm_id], fjedijson, indent=2)

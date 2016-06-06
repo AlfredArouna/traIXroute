@@ -100,33 +100,34 @@ class traIXroute_output():
         tracerouteDataStore.load_jediresults(msm_id)
         jedidata = tracerouteDataStore.get_jediresults(msm_id)
 
-        if 'a' == cur_asmt:
-            temp_print = rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
-            
-            entry_ixp.append({'hop': str(i), 'name': asm_a, 'link': 0, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
-            print(entry_ixp)
+        if jedidata:
+            if 'a' == cur_asmt:
+                temp_print = rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
+                
+                entry_ixp.append({'hop': str(i), 'name': asm_a, 'link': 0, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
+                print(entry_ixp)
 
-        elif 'aorb' == cur_asmt:
-            temp_print = rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
-            temp_print = ' or '+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
-            
-            entry_ixp.append({'hop': str(i), 'name': asm_b, 'link': 2, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
-            print(entry_ixp)
+            elif 'aorb' == cur_asmt:
+                temp_print = rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
+                temp_print = ' or '+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
+                
+                entry_ixp.append({'hop': str(i), 'name': asm_b, 'link': 2, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
+                print(entry_ixp)
 
-        elif 'aandb' == cur_asmt:
-            temp_print=rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
-            temp_print=('and ('+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2])
-            
-            entry_ixp.append({'hop': str(i), 'name': asm_b, 'link': 3, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
-            print(entry_ixp)
+            elif 'aandb' == cur_asmt:
+                temp_print=rule+str(i)+') ' +path[i-1]+gra_asn[0]+' <--- '+asm_a+' ---> '+str(i+1)+') '+path[i]+gra_asn[1]
+                temp_print=('and ('+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2])
+                
+                entry_ixp.append({'hop': str(i), 'name': asm_b, 'link': 3, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
+                print(entry_ixp)
 
-        elif 'b' == cur_asmt:
-            temp_print=rule+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
-            
-            entry_ixp.append({'hop': str(i), 'name': asm_b, 'link': 1, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
-            print(entry_ixp)
+            elif 'b' == cur_asmt:
+                temp_print=rule+str(i+1)+') ' +path[i]+gra_asn[1]+' <--- '+asm_b+' ---> '+str(i+2)+') '+path[i+1]+gra_asn[2]
+                
+                entry_ixp.append({'hop': str(i), 'name': asm_b, 'link': 1, 'in_country': ixp_cc[i] == cc, 'rule': str(j+1) })
+                print(entry_ixp)
 
-        tracerouteDataStore.addJediData(msm_id, src_prb_id, dst_prb_id, entry_ixp)
+            tracerouteDataStore.addJediData(msm_id, src_prb_id, dst_prb_id, entry_ixp)
 
 country2cc = {
  'Afghanistan': 'AF',
